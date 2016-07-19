@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!--
+    要使在前台能够顺利调用后台的公共静态方法
+    -->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+    <package name="ognl" extends="struts-default" namespace="/ognl">
+        <action name="teacherOgnl" class="com.wsz.action.TeacherOgnlAction">
+            <result>/WEB-INF/pages/teachaerognl.jsp</result>
+        </action>
+    </package>
+</struts>

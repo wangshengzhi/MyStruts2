@@ -1,0 +1,732 @@
+Index: src/struts-user.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/struts-user.xml	(revision )
++++ src/struts-user.xml	(revision )
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<!DOCTYPE struts PUBLIC
++        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
++        "http://struts.apache.org/dtds/struts-2.3.dtd">
++
++<struts>
++    <package name="user" extends="struts-default" namespace="/user">
++        <action name="tologin">
++            <result>/WEB-INF/pages/login.jsp</result>
++        </action>
++        <action name="login" class="com.wsz.action.UserAction" method="login">
++            <result name="info">/WEB-INF/pages/user-info.jsp</result>
++        </action>
++        <action name="*" class="com.wsz.action.UserAction" method="{1}">
++            <result name="success">/WEB-INF/pages/user-success.jsp</result>
++        </action>
++    </package>
++</struts>
+\ No newline at end of file
+Index: web/WEB-INF/pages/user-info.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/user-info.jsp	(revision )
++++ web/WEB-INF/pages/user-info.jsp	(revision )
+@@ -0,0 +1,16 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/15
++  Time: 15:31
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<html>
++<head>
++    <title>Title</title>
++</head>
++<body>
++<h1>UserName:${user.name}</h1>
++</body>
++</html>
+Index: src/com/wsz/action/UserAction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/wsz/action/UserAction.java	(revision )
++++ src/com/wsz/action/UserAction.java	(revision )
+@@ -0,0 +1,55 @@
++package com.wsz.action;
++
++import com.opensymphony.xwork2.ActionSupport;
++import com.wsz.bean.User;
++
++/**
++ * Created by wangshengzhi on 2016/7/15.
++ */
++public class UserAction extends ActionSupport{
++
++    private static final long serialVersionUID = -2529010593784108449L;
++
++    private User user;
++    private String result;
++
++    public User getUser() {
++        return user;
++    }
++
++    public void setUser(User user) {
++        this.user = user;
++    }
++
++    public String getResult() {
++        return result;
++    }
++
++    public void setResult(String result) {
++        this.result = result;
++    }
++
++    public String login(){
++        return "info";
++    }
++
++    public  String save(){
++        result="save success";
++        return "success";
++    }
++
++    public String update(){
++        result="update success";
++        return "success";
++    }
++
++    private String delete(){
++        result="delete success";
++        return SUCCESS;
++    }
++
++    private String query(){
++        result="query success";
++        return SUCCESS;
++    }
++}
+Index: src/com/wsz/action/DynamicMethodInvocationAction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/wsz/action/DynamicMethodInvocationAction.java	(revision )
++++ src/com/wsz/action/DynamicMethodInvocationAction.java	(revision )
+@@ -0,0 +1,17 @@
++package com.wsz.action;
++
++import com.opensymphony.xwork2.ActionSupport;
++
++/**
++ * Created by wangshengzhi on 2016/7/15.
++ */
++public class DynamicMethodInvocationAction extends ActionSupport{
++    public String save(){
++        System.out.println("save...");
++        return SUCCESS;
++    }
++    public String update(){
++        System.out.println("succss");
++        return SUCCESS;
++    }
++}
+Index: web/WEB-INF/pages/input.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/input.jsp	(revision )
++++ web/WEB-INF/pages/input.jsp	(revision )
+@@ -0,0 +1,23 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/14
++  Time: 21:01
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<!doctype html>
++<% String path=request.getContextPath();%>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Document</title>
++</head>
++<body>
++    <form action="<%=path%>/product/save.action" method="post">
++        name:<input type="text" name="product.name" />
++        <input type="submit" value="保存"/>
++    </form>
++</body>
++</html>
++
+Index: web/index.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/index.jsp	(revision )
++++ web/index.jsp	(revision )
+@@ -0,0 +1,33 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/14
++  Time: 20:12
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<% String path=request.getContextPath();%>
++<!doctype html>
++<html lang="en">
++<head>
++  <meta charset="UTF-8">
++  <title>Document</title>
++</head>
++<body>
++  <a href="<%=path%>/product/input.action">product input</a>
++  <br/>
++  <a href="<%=path%>/user/tologin.action">user tologin</a>
++  <br/>
++  <a href="<%=path%>/user/save.action">user save</a>
++  <br/>
++  <a href="<%=path%>/user/update.action">user update</a>
++  <br/>
++  <a href="<%=path%>/user/delete.action">user delete</a>
++  <br/>
++  <a href="<%=path%>/user/query.action">user query</a>
++  <br/>
++  <a href="<%=path%>/dynamic/dynamic!save.action">dynamic save</a>
++  <br/>
++  <a href="<%=path%>/dynamic/dynamic!update.action">dynamic update</a>
++</body>
++</html>
+Index: web/WEB-INF/pages/details.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/details.jsp	(revision )
++++ web/WEB-INF/pages/details.jsp	(revision )
+@@ -0,0 +1,19 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/15
++  Time: 14:05
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<!doctype html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Document</title>
++</head>
++<body>
++    id:${product.name}<br/>
++    name:${product.id}
++</body>
++</html>
+\ No newline at end of file
+Index: web/WEB-INF/pages/dynamic.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/dynamic.jsp	(revision )
++++ web/WEB-INF/pages/dynamic.jsp	(revision )
+@@ -0,0 +1,18 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/15
++  Time: 14:52
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<!doctype html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Document</title>
++</head>
++<body>
++    <h1>dynamic</h1>
++</body>
++</html>
+Index: src/com/wsz/bean/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/wsz/bean/User.java	(revision )
++++ src/com/wsz/bean/User.java	(revision )
+@@ -0,0 +1,17 @@
++package com.wsz.bean;
++
++/**
++ * Created by wangshengzhi on 2016/7/15.
++ */
++public class User {
++    private String name;
++
++    public String getName() {        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++
++}
+Index: src/com/wsz/action/ProductAction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/wsz/action/ProductAction.java	(revision )
++++ src/com/wsz/action/ProductAction.java	(revision )
+@@ -0,0 +1,41 @@
++package com.wsz.action;
++
++import com.opensymphony.xwork2.ActionSupport;
++import com.wsz.bean.Product;
++
++/**
++ * Created by wangshengzhi on 2016/7/15.
++ */
++public class ProductAction extends ActionSupport {
++
++    private Product product;
++
++    private static final long serialVersionUID = 6070936404572632453L;
++
++    public Product getProduct() {
++        return product;
++    }
++
++    public void setProduct(Product product) {
++        this.product = product;
++    }
++
++    @Override
++    public String execute() throws Exception {
++        product.setId(1);
++        System.out.println(product);
++        return "details";
++    }
++
++    /**
++     * 如果使用save方法则需要在struts.xml文件中配置action的method为需要使用的方法名
++     * @return
++     * @throws Exception
++     */
++
++    private String save() throws Exception{
++        product.setId(1);
++        System.out.println(product);
++        return "details";
++    }
++}
+Index: .idea/copyright/profiles_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/copyright/profiles_settings.xml	(revision )
++++ .idea/copyright/profiles_settings.xml	(revision )
+@@ -0,0 +1,3 @@
++<component name="CopyrightManager">
++  <settings default="" />
++</component>
+\ No newline at end of file
+Index: src/com/wsz/bean/Product.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/wsz/bean/Product.java	(revision )
++++ src/com/wsz/bean/Product.java	(revision )
+@@ -0,0 +1,29 @@
++package com.wsz.bean;
++
++/**
++ * Created by wangshengzhi on 2016/7/15.
++ */
++public class Product {
++    private int id;
++    private String name;
++
++    public Product(){
++        
++    }
++
++    public int getId() {
++        return id;
++    }
++
++    public void setId(int id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision )
++++ .idea/misc.xml	(revision )
+@@ -0,0 +1,64 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ClientPropertiesManager">
++    <properties class="javax.swing.AbstractButton">
++      <property name="hideActionText" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JComponent">
++      <property name="html.disable" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JEditorPane">
++      <property name="JEditorPane.w3cLengthUnits" class="java.lang.Boolean" />
++      <property name="JEditorPane.honorDisplayProperties" class="java.lang.Boolean" />
++      <property name="charset" class="java.lang.String" />
++    </properties>
++    <properties class="javax.swing.JList">
++      <property name="List.isFileList" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JPasswordField">
++      <property name="JPasswordField.cutCopyAllowed" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JSlider">
++      <property name="Slider.paintThumbArrowShape" class="java.lang.Boolean" />
++      <property name="JSlider.isFilled" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JTable">
++      <property name="Table.isFileList" class="java.lang.Boolean" />
++      <property name="JTable.autoStartsEdit" class="java.lang.Boolean" />
++      <property name="terminateEditOnFocusLost" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JToolBar">
++      <property name="JToolBar.isRollover" class="java.lang.Boolean" />
++    </properties>
++    <properties class="javax.swing.JTree">
++      <property name="JTree.lineStyle" class="java.lang.String" />
++    </properties>
++    <properties class="javax.swing.text.JTextComponent">
++      <property name="caretAspectRatio" class="java.lang.Double" />
++      <property name="caretWidth" class="java.lang.Integer" />
++    </properties>
++  </component>
++  <component name="EntryPointsManager">
++    <entry_points version="2.0" />
++  </component>
++  <component name="MavenImportPreferences">
++    <option name="generalSettings">
++      <MavenGeneralSettings>
++        <option name="mavenHome" value="Bundled (Maven 3)" />
++      </MavenGeneralSettings>
++    </option>
++  </component>
++  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
++    <OptionsSetting value="true" id="Add" />
++    <OptionsSetting value="true" id="Remove" />
++    <OptionsSetting value="true" id="Checkout" />
++    <OptionsSetting value="true" id="Update" />
++    <OptionsSetting value="true" id="Status" />
++    <OptionsSetting value="true" id="Edit" />
++    <ConfirmationsSetting value="0" id="Add" />
++    <ConfirmationsSetting value="0" id="Remove" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(revision )
++++ .idea/modules.xml	(revision )
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/HelloStruts2.iml" filepath="$PROJECT_DIR$/HelloStruts2.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/compiler.xml	(revision )
++++ .idea/compiler.xml	(revision )
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <resourceExtensions />
++    <wildcardResourcePatterns>
++      <entry name="!?*.java" />
++      <entry name="!?*.form" />
++      <entry name="!?*.class" />
++      <entry name="!?*.groovy" />
++      <entry name="!?*.scala" />
++      <entry name="!?*.flex" />
++      <entry name="!?*.kt" />
++      <entry name="!?*.clj" />
++      <entry name="!?*.aj" />
++    </wildcardResourcePatterns>
++    <annotationProcessing>
++      <profile default="true" name="Default" enabled="false">
++        <processorPath useClasspath="true" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: web/WEB-INF/pages/user-success.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/user-success.jsp	(revision )
++++ web/WEB-INF/pages/user-success.jsp	(revision )
+@@ -0,0 +1,16 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/15
++  Time: 15:31
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<html>
++<head>
++    <title>Title</title>
++</head>
++<body>
++<h1>result:${result}</h1>
++</body>
++</html>
+Index: HelloStruts2.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- HelloStruts2.iml	(revision )
++++ HelloStruts2.iml	(revision )
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="FacetManager">
++    <facet type="web" name="Web">
++      <configuration>
++        <descriptors>
++          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
++        </descriptors>
++        <webroots>
++          <root url="file://$MODULE_DIR$/web" relative="/" />
++        </webroots>
++      </configuration>
++      <facet type="Struts2" name="Struts 2">
++        <configuration>
++          <fileset id="s2fileset" name="Default File Set " removed="false">
++            <file>file://$MODULE_DIR$/src/struts.xml</file>
++            <file>jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/struts2-core-2.3.28.1.jar!/struts-default.xml</file>
++            <file>file://$MODULE_DIR$/src/struts-user.xml</file>
++          </fileset>
++          <propertiesKeys disabled="false" />
++        </configuration>
++      </facet>
++    </facet>
++  </component>
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="library" name="Struts 2" level="project" />
++    <orderEntry type="library" scope="PROVIDED" name="Tomcat 9.0.0.M8" level="application_server_libraries" />
++  </component>
++</module>
+\ No newline at end of file
+Index: .idea/libraries/Struts_2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Struts_2.xml	(revision )
++++ .idea/libraries/Struts_2.xml	(revision )
+@@ -0,0 +1,21 @@
++<component name="libraryTable">
++  <library name="Struts 2" type="struts2">
++    <CLASSES>
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/asm-3.3.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/asm-commons-3.3.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/asm-tree-3.3.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/commons-fileupload-1.3.1.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/commons-io-2.2.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/commons-lang3-3.2.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/freemarker-2.3.22.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/javassist-3.11.0.GA.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/log4j-api-2.3.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/log4j-core-2.3.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/ognl-3.0.14.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/struts2-core-2.3.28.1.jar!/" />
++      <root url="jar://E:/Struts2/struts-2.3.28.1-all/struts-2.3.28.1/apps/struts2-blank/WEB-INF/lib/xwork-core-2.3.28.1.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file
+Index: src/struts.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/struts.xml	(revision )
++++ src/struts.xml	(revision )
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<!DOCTYPE struts PUBLIC
++        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
++        "http://struts.apache.org/dtds/struts-2.3.dtd">
++
++<struts>
++    <!--org.apache.struts2包中的default.properties配置文件中-->
++
++    <!--配置请求的后缀,默认为action-->
++    <constant name="struts.action.extension" value="action,do,"></constant>
++    <!--配置是否为开发者模式，默认为false-->
++    <constant name="Struts.devMode" value="true"></constant>
++    <!--配置上传文件的大小设置-->
++    <constant name="struts.multipart.maxSize" value="121212"></constant>
++    <!--配置是否支持动态方法的调用-->
++    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
++    <!--每个package相当于一个独立的模块，不同的模块使用不同的命名空间-->
++    <package name="hello" extends="struts-default" namespace="/product">
++        <!--未指定class,则默认为com.opensymphony.xwork2.ActionSupport, 方法为execute-->
++        <action name="input">
++            <!--result type默认为转发dispatcher,name默认为success-->
++            <!--redirectAction重定向到一个action，chain转发到action,下载文件-->
++            <result>/WEB-INF/pages/input.jsp</result>
++        </action>
++        <!--method指定某个方法，如果不指定某个方法，则使用默认的execute方法-->
++        <action name="save" class="com.wsz.action.ProductAction">
++            <result name="details">/WEB-INF/pages/details.jsp</result>
++        </action>
++    </package>
++    <package name="dynamic" extends="struts-default" namespace="/dynamic">
++        <!--动态方法调用中可以设置默认方法调用-->
++        <action name="dynamic" class="com.wsz.action.DynamicMethodInvocationAction" method="save">
++            <result name="success">/WEB-INF/pages/dynamic.jsp</result>
++        </action>
++    </package>
++    <include file="struts-user.xml"></include>
++</struts>
+Index: .idea/artifacts/HelloStruts2_war_exploded.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/artifacts/HelloStruts2_war_exploded.xml	(revision )
++++ .idea/artifacts/HelloStruts2_war_exploded.xml	(revision )
+@@ -0,0 +1,16 @@
++<component name="ArtifactManager">
++  <artifact type="exploded-war" name="HelloStruts2:war exploded">
++    <output-path>$PROJECT_DIR$/out/artifacts/HelloStruts2_war_exploded</output-path>
++    <root id="root">
++      <element id="javaee-facet-resources" facet="HelloStruts2/web/Web" />
++      <element id="directory" name="WEB-INF">
++        <element id="directory" name="classes">
++          <element id="module-output" name="HelloStruts2" />
++        </element>
++        <element id="directory" name="lib">
++          <element id="library" level="project" name="Struts 2" />
++        </element>
++      </element>
++    </root>
++  </artifact>
++</component>
+\ No newline at end of file
+Index: web/WEB-INF/web.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/web.xml	(revision )
++++ web/WEB-INF/web.xml	(revision )
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
++         version="3.1">
++    <filter>
++        <filter-name>struts2</filter-name>
++        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
++    </filter>
++    <filter-mapping>
++        <filter-name>struts2</filter-name>
++        <url-pattern>/*</url-pattern>
++    </filter-mapping>
++</web-app>
+\ No newline at end of file
+Index: web/WEB-INF/pages/login.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/WEB-INF/pages/login.jsp	(revision )
++++ web/WEB-INF/pages/login.jsp	(revision )
+@@ -0,0 +1,22 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: wangshengzhi
++  Date: 2016/7/15
++  Time: 15:09
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<!doctype html>
++<%@taglib prefix="s" uri="/struts-tags" %>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Document</title>
++</head>
++<body>
++<s:form action="/user/login.action" method="POST" >
++    <s:textfield label="username" name="user.name"></s:textfield>
++    <s:submit value="提交"></s:submit>
++</s:form>
++</body>
++</html>

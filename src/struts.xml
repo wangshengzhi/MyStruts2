@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--org.apache.struts2包中的default.properties配置文件中-->
+
+    <!--配置请求的后缀,默认为action-->
+    <constant name="struts.action.extension" value="action,do,"></constant>
+    <!--配置是否为开发者模式，默认为false-->
+    <constant name="Struts.devMode" value="true"></constant>
+    <!--配置上传文件的大小设置-->
+    <constant name="struts.multipart.maxSize" value="121212"></constant>
+    <!--配置是否支持动态方法的调用-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <!--每个package相当于一个独立的模块，不同的模块使用不同的命名空间-->
+    <package name="hello" extends="struts-default" namespace="/product">
+        <!--未指定class,则默认为com.opensymphony.xwork2.ActionSupport, 方法为execute-->
+        <action name="input">
+            <!--result type默认为转发dispatcher,name默认为success-->
+            <!--redirectAction重定向到一个action，chain转发到action,下载文件-->
+            <result>/WEB-INF/pages/input.jsp</result>
+        </action>
+        <!--method指定某个方法，如果不指定某个方法，则使用默认的execute方法-->
+        <action name="save" class="com.wsz.action.ProductAction">
+            <result name="details">/WEB-INF/pages/details.jsp</result>
+        </action>
+    </package>
+    <package name="dynamic" extends="struts-default" namespace="/dynamic">
+        <!--动态方法调用中可以设置默认方法调用-->
+        <action name="dynamic" class="com.wsz.action.DynamicMethodInvocationAction" method="save">
+            <result name="success">/WEB-INF/pages/dynamic.jsp</result>
+        </action>
+    </package>
+    <include file="struts-user.xml"></include>
+    <include file="struts-context.xml"></include>
+    <include file="struts-ognl.xml"></include>
+    <include file="struts-tag.xml"></include>
+</struts>
